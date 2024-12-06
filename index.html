@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de présence</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+        input, button {
+            font-size: 1em;
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Confirmation de présence</h1>
+
+    <!-- Formulaire -->
+    <form id="confirmationForm" action="">
+
+        <label for="agentName">Nom de l'agent :</label>
+        <input type="text" id="agentName" name="agentName" required><br>
+
+        <label for="clientName">Nom du client :</label>
+        <input type="text" id="clientName" name="clientName" required><br>
+
+        <label for="geoLocation">Votre position :</label>
+        <input type="text" id="geoLocation" name="geoLocation" readonly><br>
+
+        <button type="submit">Soumettre</button>
+    </form>
+
+    <!-- Script pour géolocalisation -->
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                document.getElementById("geoLocation").value = "Latitude: " + lat + ", Longitude: " + lon;
+            }, function(error) {
+                alert("Impossible de récupérer la position.");
+            });
+        } else {
+            alert("La géolocalisation n'est pas supportée par ce navigateur.");
+        }
+
+        // Envoi du formulaire
+        document.getElementById("confirmationForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Empêche le rechargement de la page
+
+            // Récupération des données du formulaire
+            var agentName = document.getElementById("agentName").value;
+            var clientName = document.getElementById("clientName").value;
+            var geoLocation = document.getElementById("geoLocation").value;
+
+            // Afficher un message de confirmation
+            alert("Formulaire soumis !\n\n" +
+                  "Nom de l'agent : " + agentName + "\n" +
+                  "Nom du client : " + clientName + "\n" +
+                  "Position géographique : " + geoLocation);
+        });
+    </script>
+
+</body>
+</html>
